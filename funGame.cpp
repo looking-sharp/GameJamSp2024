@@ -236,6 +236,7 @@ int checkForTickTackTowWin()
 //tick tack toe logic
 void playTickTackToe()
 {
+    hasWonTTT = false;
     //reset board
     for(int i = 0; i < 3; i++)
     {
@@ -244,6 +245,7 @@ void playTickTackToe()
             TTT[i][k]= " ";
         }
     }
+    printTickTackToe();
     //update random seed
     srand(time(0));
     int playerRow;
@@ -463,8 +465,7 @@ bool gameplayLoop()
         if(rand() % randomEventChance == 1 && turn >= 2)
         {
             clrscr();
-            std::cout<< "Whoops! You're playing tick tack toe now." << std::endl;
-            printTickTackToe();
+            std::cout << "Whoops! You're playing tick tack toe now." << std::endl;
             playTickTackToe();
         }
         //produces number from 1-100
@@ -472,7 +473,11 @@ bool gameplayLoop()
         //Update chance values (increases as you play, causes crash)
         if(chance <= chanceToBeat)
         {
-            fuckYourLifeBingBong();
+            clrscr();
+            std::cout << "Whoops! You got greedy. Now you're playing russian roulette." << std::endl;
+            playRussianRoulette();
+            std::cout << "Your chance of getting money has increased!" << std::endl;
+            chance += rand() % 50;
         }
         else
         {
@@ -494,7 +499,7 @@ bool gameplayLoop()
 }
 
 //MAIN
-/*
+
 int main() {
     setup();
     while(true)
@@ -518,10 +523,4 @@ int main() {
         }
     }
     return 1;
-}
-*/
-
-int main()
-{
-    playRussianRoulette();
 }
