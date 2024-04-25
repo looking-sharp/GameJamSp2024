@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <iomanip>
 
+#pragma region MainGambleing
 void fuckYourLifeBingBong()
 {
     srand(time(0));
@@ -132,7 +133,9 @@ std::string formatMoney()
     ss << std::fixed << std::setprecision(2) << "$" << money;
     return ss.str();
 }
+#pragma endregion
 
+#pragma region TickTackToe
 // TICK TACK TOE
 
 std::string TTT[3][3]{
@@ -268,6 +271,12 @@ void playTickTackToe()
         }
     }
 }
+#pragma endregion
+
+#pragma region russianRoulette
+
+
+#pragma endregion
 
 //Gameplay loop 
 
