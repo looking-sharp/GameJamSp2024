@@ -176,6 +176,17 @@ int main() {
     {
         if(gameplayLoop())
         {
+            std::cout << "You ended with " << formatMoney();
+            int random = rand() % 6;
+            std::string outputs[6] = {
+                ". Rookie numbers, you can do better",
+                ". Wow, only that much? Jesus you suck",
+                ". Most gamblers quit before they make their big hit, keep going?",
+                ". I bet I could beat that.",
+                ". Jesus you're bad at this",
+                ". Try again, no balls"
+            };
+            std::cout << outputs[random] << std::endl;
             return 0;
         }
     }
