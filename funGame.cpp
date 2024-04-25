@@ -265,7 +265,7 @@ void playTickTackToe()
             std::cin >> playerRow;
             std::cout << "Enter a column (1-3): ";
             std::cin >> playerCol;
-            if(TTT[playerRow-1][playerCol-1] == " ")
+            if(TTT[playerRow-1][playerCol-1] == " " && playerRow <= 3 && playerRow >= 0 && playerCol <= 3 && playerCol >= 0 )
             {
                 legalMove = true;
             }
@@ -322,6 +322,7 @@ void playTickTackToe()
 
 #pragma region russianRoulette
 
+//print russian roulette board
 void printRussianRoulette()
 {
     std::cout << std::endl;
@@ -333,66 +334,81 @@ void printRussianRoulette()
     std::cout << std::endl;
 }
 
+//Play russian roulette game
 void playRussianRoulette()
 {
     while (true)
     {
         printRussianRoulette();
-        //do Player input
+        //do Player input, reset random
         srand(time(0));
         int numTillBullet = rand() % 6;
         int input;
         std::cout << "Choose to spin (1) or shoot (0): ";
         std::cin >> input;
+        //do spin
         if(input == 1)
         {
             usleep(1000000);
             printRussianRoulette();
+            //reset bullet amount
             numTillBullet = rand() % 6;
+            //force player to shoot themselves
             std::cout << "Shoot yourself (0): ";
             std::cin >> input;
             input = 0;
         }
+        //player chooses to shoot themselves
         if(input == 0)
         {
+            //they lose, cause crash sequence
             if(numTillBullet == 0)
             {
                 fuckYourLifeBingBong();
             }
+            //you survived the turn
             else
             {
                 std::cout << "You survive, computer's turn." << std::endl << std::endl;
                 numTillBullet--;
             }
         }
-
+        //make computer play
+        //Determine if computer spins or shoots (favor on shoots)
         bool robotChoice = rand() % 6 == 0;
+        //robot spins
         if(robotChoice)
         {
+            //reset bullet amount
             numTillBullet = rand() % 6;
             std::cout << "Computer choses to spin" << std::endl;
             std::cout << "Computer choses to shoot itself" <<std::endl;
             if(numTillBullet == 0)
             {
+                //you win, computer shot itself
                 std::cout << "Computer shoots itself, you win!" << std::endl << std::endl;
                 break;
             }
             else
             {
+                //computer survived, your turn
                 std::cout << "Computer survives, your turn." << std::endl << std::endl;
                 numTillBullet--;
             }
         }
+        //computer choses to shoot itself
         else
         {
             std::cout << "Computer choses to shoot itself" << std::endl;
             if(numTillBullet == 0)
             {
+                //you win, computer shot itself
                 std::cout << "Computer shoots itself, you win!" << std::endl << std::endl;
                 break;
             }
             else
             {
+                //computer survived, your turn
                 std::cout << "Computer survives, your turn." << std::endl << std::endl;
                 numTillBullet--;
             }
@@ -402,7 +418,8 @@ void playRussianRoulette()
 
 #pragma endregion
 
-int randomEventChance = 7;
+//set up and introduction code
+int randomEventChance = 5;
 void setup()
 {
     clrscr();
@@ -416,18 +433,22 @@ void setup()
     std::string input;
     std::cin >> input;
     int input2 = 0; 
+    //allow user to change settings
     if(input == "settings")
     {
+        //keep prompting user until they type 0
         while(true)
         {
             std::cout << std::endl << "Type in the number for the setting you wish to change (or type 0 to leave):" << std::endl;
             std::cout << "  1. Random Event Chance: " << randomEventChance << " (Lower number = greater chance)" << std::endl;
             std::cin >> input2;
+            //user is done editing settings, return to game
             if(input2 == 0)
             {
                 clrscr();
                 break;
             }
+            //allow user to change the 1 setting
             else if (input2 == 1)
             {
                 std::cout << "Enter a new value for Random Event Chance: ";
@@ -435,6 +456,7 @@ void setup()
             }
         }
     }
+    //user goes straight to game
     else
     {
         std::cout << std::endl;
@@ -468,32 +490,35 @@ bool gameplayLoop()
             std::cout << "Whoops! You're playing tick tack toe now." << std::endl;
             playTickTackToe();
         }
-        //produces number from 1-100
-        int chanceToBeat = rand() % 101;
-        //Update chance values (increases as you play, causes crash)
-        if(chance <= chanceToBeat)
-        {
-            clrscr();
-            std::cout << "Whoops! You got greedy. Now you're playing russian roulette." << std::endl;
-            playRussianRoulette();
-            std::cout << "Your chance of getting money has increased!" << std::endl;
-            chance += rand() % 50;
-        }
         else
         {
-            //add money at a logrythmic rate 
-            moneyGained += (rand() % (1000 * turn));
-            money += moneyGained / 100.0;
-            //reduse chance to suceed random amount.
-            chance -= rand() % 5;
-            //make sue chance can't be < 0
-            if(chance < 0)
+            //produces number from 1-100
+            int chanceToBeat = rand() % 101;
+            //Update chance values (increases as you play, causes crash)
+            if(chance <= chanceToBeat)
             {
-                chance = 0;
+                clrscr();
+                std::cout << "Whoops! You got greedy. Now you're playing russian roulette." << std::endl;
+                playRussianRoulette();
+                std::cout << "Your chance of getting money has increased!" << std::endl;
+                chance += rand() % 50;
             }
+            else
+            {
+                //add money at a logrythmic rate 
+                moneyGained += (rand() % (1000 * turn));
+                money += moneyGained / 100.0;
+                //reduse chance to suceed random amount.
+                chance -= rand() % 5;
+                //make sue chance can't be < 0
+                if(chance < 0)
+                {
+                    chance = 0;
+                }
+            }
+            //you fucked it if you got here
+            return false;
         }
-        //you fucked it if you got here
-        return false;
     }
     return true;
 }
