@@ -5,6 +5,12 @@
 #include <unistd.h>
 #include <iomanip>
 
+//clear screen
+void clrscr()
+{
+    std::cout << "\033c";
+}
+
 #pragma region MainGambleing
 //Code to "crash" computer
 void fuckYourLifeBingBong()
@@ -249,12 +255,25 @@ void playTickTackToe()
     {
         //update seed
         srand(time(0));
-        std::cout << "Enter a row (1-3): ";
-        std::cin >> playerRow;
-        std::cout << "Enter a column (1-3): ";
-        std::cin >> playerCol;
+        bool legalMove = false;
+        //grab move from player
+        while(!legalMove)
+        {
+            std::cout << "Enter a row (1-3): ";
+            std::cin >> playerRow;
+            std::cout << "Enter a column (1-3): ";
+            std::cin >> playerCol;
+            if(TTT[playerRow-1][playerCol-1] == " ")
+            {
+                legalMove = true;
+            }
+            else
+            {
+                std::cout<< "Illegal move, try again" << std::endl;
+            }
+        }
         TTT[playerRow-1][playerCol-1] = "X";
-        printTickTackToe();
+        clrscr();
         //let the coputer choose a spot
         while(TTT[compRow][compCol] != " ")
         {
@@ -262,14 +281,14 @@ void playTickTackToe()
             compCol = rand() % 3;
         }
         TTT[compRow][compCol] = "O";
-        std::cout << "COmputer moves to (" << compRow+1 << "," << compCol+1 << ")" << std::endl;
+        std::cout << "Computer moves to (" << compRow+1 << "," << compCol+1 << ")" << std::endl;
         printTickTackToe();
         int check = checkForTickTackTowWin();
         // won, you can go back to main game now
         if (check == 0)
         {
             hasWonTTT = true;
-            std::cout << "You win tick tack toe! You can go back to gambeling now." << std::endl;
+            std::cout << "You win tick tack toe! You can go back to gambeling now." << std::endl << std::endl;
         }
         //you lost, reset board
         else if(check == 1)
@@ -304,6 +323,46 @@ void playTickTackToe()
 
 #pragma endregion
 
+int randomEventChance = 7;
+void setup()
+{
+    clrscr();
+    std::cout << "Welcome to funGame.cpp! Here's the rules:" << std::endl;
+    std::cout << "  1. Make as much money as possible" << std::endl;
+    std::cout << "  2. I didn't add error handeling to don't type in wrong stuff" << std::endl;
+    std::cout << "  3. This should be played on liux terminal / ENGR servers" << std::endl;
+    std::cout << "  4. No crying" << std::endl;
+    std::cout << "Just follow the prompts and you'll be fine!" << std::endl;
+    std::cout << "Type anything to continue or type 'settings' to access settings" << std::endl;
+    std::string input;
+    std::cin >> input;
+    int input2 = 0; 
+    if(input == "settings")
+    {
+        while(true)
+        {
+            std::cout << std::endl << "Type in the number for the setting you wish to change (or type 0 to leave):" << std::endl;
+            std::cout << "  1. Random Event Chance: " << randomEventChance << " (Lower number = greater chance)" << std::endl;
+            std::cin >> input2;
+            if(input2 == 0)
+            {
+                clrscr();
+                break;
+            }
+            else if (input2 == 1)
+            {
+                std::cout << "Enter a new value for Random Event Chance: ";
+                std::cin >> randomEventChance;
+            }
+        }
+    }
+    else
+    {
+        std::cout << std::endl;
+        clrscr();
+    }
+}
+
 //Gameplay loop, main control system
 bool gameplayLoop()
 {
@@ -324,8 +383,9 @@ bool gameplayLoop()
     {
         //chose to try and get more money
         //random chance you play tick tack toe
-        if(rand() % 7 == 1 && turn >= 2)
+        if(rand() % randomEventChance == 1 && turn >= 2)
         {
+            clrscr();
             std::cout<< "Whoops! You're playing tick tack toe now." << std::endl;
             printTickTackToe();
             playTickTackToe();
@@ -359,6 +419,7 @@ bool gameplayLoop()
 //MAIN
 
 int main() {
+    setup();
     while(true)
     {
         //do th gameplay loop, check if player has cashed out
