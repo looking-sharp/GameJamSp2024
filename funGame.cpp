@@ -320,6 +320,83 @@ void playTickTackToe()
 
 #pragma region russianRoulette
 
+void printRussianRoulette()
+{
+    std::cout << std::endl;
+    std::cout << "               {?}" << std::endl;
+    std::cout << "          {?}       {?}" << std::endl;
+    std::cout << std::endl;
+    std::cout << "          {?}       {?}" << std::endl;
+    std::cout << "               {?}" << std::endl;
+    std::cout << std::endl;
+}
+
+void playRussianRoulette()
+{
+    while (true)
+    {
+        printRussianRoulette();
+        //do Player input
+        srand(time(0));
+        int numTillBullet = rand() % 6;
+        int input;
+        std::cout << "Choose to spin (1) or shoot (0): ";
+        std::cin >> input;
+        if(input == 1)
+        {
+            usleep(1000000);
+            printRussianRoulette();
+            numTillBullet = rand() % 6;
+            std::cout << "Shoot yourself (0): ";
+            std::cin >> input;
+            input = 0;
+        }
+        if(input == 0)
+        {
+            if(numTillBullet == 0)
+            {
+                fuckYourLifeBingBong();
+            }
+            else
+            {
+                std::cout << "You survive, computer's turn." << std::endl << std::endl;
+                numTillBullet--;
+            }
+        }
+
+        bool robotChoice = rand() % 6 == 0;
+        if(robotChoice)
+        {
+            numTillBullet = rand() % 6;
+            std::cout << "Computer choses to spin" << std::endl;
+            std::cout << "Computer choses to shoot itself" <<std::endl;
+            if(numTillBullet == 0)
+            {
+                std::cout << "Computer shoots itself, you win!" << std::endl << std::endl;
+                break;
+            }
+            else
+            {
+                std::cout << "Computer survives, your turn." << std::endl << std::endl;
+                numTillBullet--;
+            }
+        }
+        else
+        {
+            std::cout << "Computer choses to shoot itself" << std::endl;
+            if(numTillBullet == 0)
+            {
+                std::cout << "Computer shoots itself, you win!" << std::endl << std::endl;
+                break;
+            }
+            else
+            {
+                std::cout << "Computer survives, your turn." << std::endl << std::endl;
+                numTillBullet--;
+            }
+        }
+    }
+}
 
 #pragma endregion
 
@@ -417,7 +494,7 @@ bool gameplayLoop()
 }
 
 //MAIN
-
+/*
 int main() {
     setup();
     while(true)
@@ -441,4 +518,10 @@ int main() {
         }
     }
     return 1;
+}
+*/
+
+int main()
+{
+    playRussianRoulette();
 }
