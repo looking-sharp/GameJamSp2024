@@ -6,11 +6,12 @@
 #include <iomanip>
 
 #pragma region MainGambleing
+//Code to "crash" computer
 void fuckYourLifeBingBong()
 {
     srand(time(0));
     const int maxLines = 100;
-    
+    //List of 100 erors
     std::string lines[maxLines] = {
         "Segmentation fault (core dumped)",
         "Bus error (core dumped)",
@@ -113,7 +114,7 @@ void fuckYourLifeBingBong()
         "error: 'AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH'",
         "error: 'Masterchief, what are you doing in that discord server?'",
     };
-
+    //print 500 errors
     for (int i = 0; i < maxLines*5; ++i) {
         std::cout << lines[rand() % maxLines] << std::endl;
         usleep(10000); // Sleep for 0.1 seconds
@@ -122,11 +123,13 @@ void fuckYourLifeBingBong()
     *ptr = 10;
 }
 
+//variables for main gambeling
 double  money = 0;
 int chance = 100;
 int moneyGained = 0;
 int turn = 0;
 
+//take money and format it s $-.--
 std::string formatMoney()
 {
     std::stringstream ss;
@@ -138,6 +141,7 @@ std::string formatMoney()
 #pragma region TickTackToe
 // TICK TACK TOE
 
+//Tick tack toe variables
 std::string TTT[3][3]{
     {" ", " ", " "},
     {" ", " ", " "},
@@ -145,6 +149,7 @@ std::string TTT[3][3]{
 };
 bool hasWonTTT = false;
 
+//print the tick tack toe board
 void printTickTackToe()
 {
     std::cout << "  1   2   3" << std::endl;
@@ -155,6 +160,7 @@ void printTickTackToe()
     }
 }
 
+//check to see if someone won tick tack toe
 int checkForTickTackTowWin()
 {
     //check for vertical wins
@@ -162,10 +168,12 @@ int checkForTickTackTowWin()
     {
         if(TTT[r][0] == "X" && TTT[r][1] == "X" && TTT[r][2] == "X")
         {
+            //you win
             return 0;
         }
         else if(TTT[r][0] == "O" && TTT[r][1] == "O" && TTT[r][2] == "O")
         {
+            //comp wins
             return 1;
         }
     }
@@ -174,28 +182,34 @@ int checkForTickTackTowWin()
     {
         if(TTT[0][c] == "X" && TTT[1][c] == "X" && TTT[2][c] == "X")
         {
+            //you win
             return 0;
         }
         else if(TTT[0][c] == "O" && TTT[1][c] == "O" && TTT[2][c] == "O")
         {
+            //comp wins
             return 1;
         }
     }
     //Check for diagonal wins
     if(TTT[0][0] == "X" && TTT[1][1] == "X" && TTT[2][2] == "X")
     {
+        //you win
         return 0;
     }
     else if(TTT[0][0] == "O" && TTT[1][1] == "O" && TTT[2][2] == "O")
     {
+        //comp wins
         return 1;
     }
     if(TTT[0][2] == "X" && TTT[1][1] == "X" && TTT[2][0] == "X")
     {
+        //you win
         return 0;
     }
     else if(TTT[0][2] == "O" && TTT[1][1] == "O" && TTT[2][0] == "O")
     {
+        //comp wins
         return 1;
     }
     for(int i = 0; i < 3; i++)
@@ -204,15 +218,19 @@ int checkForTickTackTowWin()
         {
             if (TTT[i][k] == " ")
             {
+                //you are still going
                 return 3;
             }
         }
     }
+    //you tied
     return 2;
 }
 
+//tick tack toe logic
 void playTickTackToe()
 {
+    //reset board
     for(int i = 0; i < 3; i++)
     {
         for(int k = 0; k < 3; k++)
@@ -220,19 +238,24 @@ void playTickTackToe()
             TTT[i][k]= " ";
         }
     }
+    //update random seed
     srand(time(0));
     int playerRow;
     int playerCol;
     int compRow = rand() % 3;
     int compCol = rand() % 3;
+    //play tick tack toe
     while(!hasWonTTT)
     {
+        //update seed
+        srand(time(0));
         std::cout << "Enter a row (1-3): ";
         std::cin >> playerRow;
         std::cout << "Enter a column (1-3): ";
         std::cin >> playerCol;
         TTT[playerRow-1][playerCol-1] = "X";
         printTickTackToe();
+        //let the coputer choose a spot
         while(TTT[compRow][compCol] != " ")
         {
             compRow = rand() % 3;
@@ -242,11 +265,13 @@ void playTickTackToe()
         std::cout << "COmputer moves to (" << compRow+1 << "," << compCol+1 << ")" << std::endl;
         printTickTackToe();
         int check = checkForTickTackTowWin();
+        // won, you can go back to main game now
         if (check == 0)
         {
             hasWonTTT = true;
             std::cout << "You win tick tack toe! You can go back to gambeling now." << std::endl;
         }
+        //you lost, reset board
         else if(check == 1)
         {
             std::cout << "You lost! Try again:" << std::endl;
@@ -258,6 +283,7 @@ void playTickTackToe()
                 }
             }
         }
+        //you tied, reset board
         else if(check == 2)
         {
             std::cout << "You tied! Try again:" << std::endl;
@@ -278,10 +304,10 @@ void playTickTackToe()
 
 #pragma endregion
 
-//Gameplay loop 
-
+//Gameplay loop, main control system
 bool gameplayLoop()
 {
+    //reset random seed
     srand(time(0));
     turn++;
     std::cout << "You have " << formatMoney() << ", what do you want to do?" << std::endl;
@@ -291,10 +317,13 @@ bool gameplayLoop()
     std::cout << std::endl;
     if(choice == 0)
     {
+        //you choose to cash out
         return true;
     }
     else if(choice == 1)
     {
+        //chose to try and get more money
+        //random chance you play tick tack toe
         if(rand() % 7 == 1 && turn >= 2)
         {
             std::cout<< "Whoops! You're playing tick tack toe now." << std::endl;
@@ -303,15 +332,19 @@ bool gameplayLoop()
         }
         //produces number from 1-100
         int chanceToBeat = rand() % 101;
+        //Update chance values (increases as you play, causes crash)
         if(chance <= chanceToBeat)
         {
             fuckYourLifeBingBong();
         }
         else
         {
+            //add money at a logrythmic rate 
             moneyGained += (rand() % (1000 * turn));
             money += moneyGained / 100.0;
+            //reduse chance to suceed random amount.
             chance -= rand() % 5;
+            //make sue chance can't be < 0
             if(chance < 0)
             {
                 chance = 0;
@@ -328,8 +361,10 @@ bool gameplayLoop()
 int main() {
     while(true)
     {
+        //do th gameplay loop, check if player has cashed out
         if(gameplayLoop())
         {
+            //has cashed out, create message
             std::cout << "You ended with " << formatMoney();
             int random = rand() % 6;
             std::string outputs[6] = {
