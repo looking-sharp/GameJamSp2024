@@ -1,7 +1,9 @@
 #include <iostream>
+#include <cmath>
 #include <cstdlib>
 #include <ctime>
 #include <unistd.h>
+#include <iomanip>
 
 void fuckYourLifeBingBong()
 {
@@ -119,8 +121,23 @@ void fuckYourLifeBingBong()
     *ptr = 10;
 }
 
+double  money = 0;
+
+std::string formatMoney()
+{
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(2) << "$" << money;
+    return ss.str();
+}
+
+void gameplayLoop()
+{
+
+}
+
+
 int main() {
-    
-    fuckYourLifeBingBong();
+    std::cout << formatMoney();
+    //fuckYourLifeBingBong();
     return 0;
 }
