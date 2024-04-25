@@ -191,9 +191,60 @@ void printTickTackToe()
     }
 }
 
-bool checkForTickTackTowWin()
+int checkForTickTackTowWin()
 {
-    return false;
+    //check for vertical wins
+    for(int r = 0; r < 3; r++)
+    {
+        if(TTT[r][0] == "X" && TTT[r][1] == "X" && TTT[r][2] == "X")
+        {
+            return 0;
+        }
+        else if(TTT[r][0] == "O" && TTT[r][1] == "O" && TTT[r][2] == "O")
+        {
+            return 1;
+        }
+    }
+    //check for horizontal wins
+    for(int c = 0; c < 3; c++)
+    {
+        if(TTT[0][c] == "X" && TTT[1][c] == "X" && TTT[2][c] == "X")
+        {
+            return 0;
+        }
+        else if(TTT[0][c] == "O" && TTT[1][c] == "O" && TTT[2][c] == "O")
+        {
+            return 1;
+        }
+    }
+    //Check for diagonal wins
+    if(TTT[0][0] == "X" && TTT[1][1] == "X" && TTT[2][2] == "X")
+    {
+        return 0;
+    }
+    else if(TTT[0][0] == "O" && TTT[1][1] == "O" && TTT[2][2] == "O")
+    {
+        return 1;
+    }
+    if(TTT[0][2] == "X" && TTT[1][1] == "X" && TTT[2][0] == "X")
+    {
+        return 0;
+    }
+    else if(TTT[0][2] == "O" && TTT[1][1] == "O" && TTT[2][0] == "O")
+    {
+        return 1;
+    }
+    for(int i = 0; i < 3; i++)
+    {
+        for (int k = 0; k < 3; k++)
+        {
+            if (TTT[i][k] == " ")
+            {
+                return 3;
+            }
+        }
+    }
+    return 2;
 }
 
 void playTickTackToe()
@@ -209,7 +260,7 @@ void playTickTackToe()
         std::cin >> playerRow;
         std::cout << "Enter a column (1-3): ";
         std::cin >> playerCol;
-        TTT[playerCol-1][playerRow-1] = "X";
+        TTT[playerRow-1][playerCol-1] = "X";
         printTickTackToe();
         while(TTT[compRow][compCol] != " ")
         {
@@ -219,9 +270,33 @@ void playTickTackToe()
         TTT[compRow][compCol] = "O";
         std::cout << "COmputer moves to (" << compRow+1 << "," << compCol+1 << ")" << std::endl;
         printTickTackToe();
-        if (checkForTickTackTowWin())
+        int check = checkForTickTackTowWin();
+        if (check == 0)
         {
             hasWonTTT = true;
+            std::cout << "You win tick tack toe! You can go back to gambeling now." << std::endl;
+        }
+        else if(check == 1)
+        {
+            std::cout << "You lost! Try again:" << std::endl;
+            for(int i = 0; i < 3; i++)
+            {
+                for(int k = 0; k < 3; k++)
+                {
+                    TTT[i][k]= " ";
+                }
+            }
+        }
+        else if(check == 2)
+        {
+            std::cout << "You tied! Try again:" << std::endl;
+            for(int i = 0; i < 3; i++)
+            {
+                for(int k = 0; k < 3; k++)
+                {
+                    TTT[i][k]= " ";
+                }
+            }
         }
     }
 }
