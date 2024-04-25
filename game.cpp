@@ -122,6 +122,9 @@ void fuckYourLifeBingBong()
 }
 
 double  money = 0;
+int chance = 100;
+int moneyGained = 0;
+int turn = 0;
 
 std::string formatMoney()
 {
@@ -130,14 +133,52 @@ std::string formatMoney()
     return ss.str();
 }
 
-void gameplayLoop()
+bool gameplayLoop()
 {
-
+    srand(time(0));
+    turn++;
+    std::cout << "You have " << formatMoney() << ", what do you want to do?" << std::endl;
+    std::cout << "(1) try and get more, (0) cash out: ";
+    int choice = 0;
+    std::cin >> choice;
+    std::cout << std::endl;
+    if(choice == 0)
+    {
+        return true;
+    }
+    else if(choice == 1)
+    {
+        //produces number from 1-100
+        int chanceToBeat = rand() % 101;
+        if(chance <= chanceToBeat)
+        {
+            fuckYourLifeBingBong();
+        }
+        else
+        {
+            moneyGained += (rand() % (1000 * turn));
+            money += moneyGained / 100.0;
+            chance -= rand() % 5;
+            if(chance < 0)
+            {
+                chance = 0;
+            }
+        }
+        //you fucked it if you got here
+        return false;
+    }
+    return true;
 }
 
 
 int main() {
-    std::cout << formatMoney();
+    while(true)
+    {
+        if(gameplayLoop())
+        {
+            return 0;
+        }
+    }
+    return 1;
     //fuckYourLifeBingBong();
-    return 0;
 }
