@@ -148,6 +148,7 @@ bool gameplayLoop()
     }
     else if(choice == 1)
     {
+        
         //produces number from 1-100
         int chanceToBeat = rand() % 101;
         if(chance <= chanceToBeat)
@@ -171,7 +172,42 @@ bool gameplayLoop()
 }
 
 
+// TICK TACK TOE
+
+std::string TTT[3][3]{
+    {"X", "X", "X"},
+    {"X", "X", "X"},
+    {"X", "X", "X"},
+};
+bool hasWonTTT = false;
+
+void printTickTackToe()
+{
+    std::cout << "  1   2   3" << std::endl;
+    for(int i = 0; i < 3; i++)
+    {
+        std::cout << i+1 << " " << TTT[i][0] << " | " << TTT[i][1] << " | " << TTT[i][2] << std::endl;
+        std::cout << " -----------" << std::endl;
+    }
+}
+
+void playTickTackToe()
+{
+    while(!hasWonTTT)
+    {
+
+    }
+    //update seed
+    srand(time(0));
+
+}
+
+
+//MAIN
+
 int main() {
+    printTickTackToe();
+    /*
     while(true)
     {
         if(gameplayLoop())
@@ -192,4 +228,5 @@ int main() {
     }
     return 1;
     //fuckYourLifeBingBong();
+    */
 }
