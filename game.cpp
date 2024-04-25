@@ -175,9 +175,9 @@ bool gameplayLoop()
 // TICK TACK TOE
 
 std::string TTT[3][3]{
-    {"X", "X", "X"},
-    {"X", "X", "X"},
-    {"X", "X", "X"},
+    {" ", " ", " "},
+    {" ", " ", " "},
+    {" ", " ", " "},
 };
 bool hasWonTTT = false;
 
@@ -191,15 +191,39 @@ void printTickTackToe()
     }
 }
 
+bool checkForTickTackTowWin()
+{
+    return false;
+}
+
 void playTickTackToe()
 {
+    srand(time(0));
+    int playerRow;
+    int playerCol;
+    int compRow = rand() % 3;
+    int compCol = rand() % 3;
     while(!hasWonTTT)
     {
-
+        std::cout << "Enter a row (1-3): ";
+        std::cin >> playerRow;
+        std::cout << "Enter a column (1-3): ";
+        std::cin >> playerCol;
+        TTT[playerCol-1][playerRow-1] = "X";
+        printTickTackToe();
+        while(TTT[compRow][compCol] != " ")
+        {
+            compRow = rand() % 3;
+            compCol = rand() % 3;
+        }
+        TTT[compRow][compCol] = "O";
+        std::cout << "COmputer moves to (" << compRow+1 << "," << compCol+1 << ")" << std::endl;
+        printTickTackToe();
+        if (checkForTickTackTowWin())
+        {
+            hasWonTTT = true;
+        }
     }
-    //update seed
-    srand(time(0));
-
 }
 
 
@@ -207,6 +231,7 @@ void playTickTackToe()
 
 int main() {
     printTickTackToe();
+    playTickTackToe();
     /*
     while(true)
     {
