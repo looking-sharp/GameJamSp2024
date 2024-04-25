@@ -133,45 +133,6 @@ std::string formatMoney()
     return ss.str();
 }
 
-bool gameplayLoop()
-{
-    srand(time(0));
-    turn++;
-    std::cout << "You have " << formatMoney() << ", what do you want to do?" << std::endl;
-    std::cout << "(1) try and get more, (0) cash out: ";
-    int choice = 0;
-    std::cin >> choice;
-    std::cout << std::endl;
-    if(choice == 0)
-    {
-        return true;
-    }
-    else if(choice == 1)
-    {
-        
-        //produces number from 1-100
-        int chanceToBeat = rand() % 101;
-        if(chance <= chanceToBeat)
-        {
-            fuckYourLifeBingBong();
-        }
-        else
-        {
-            moneyGained += (rand() % (1000 * turn));
-            money += moneyGained / 100.0;
-            chance -= rand() % 5;
-            if(chance < 0)
-            {
-                chance = 0;
-            }
-        }
-        //you fucked it if you got here
-        return false;
-    }
-    return true;
-}
-
-
 // TICK TACK TOE
 
 std::string TTT[3][3]{
@@ -249,6 +210,13 @@ int checkForTickTackTowWin()
 
 void playTickTackToe()
 {
+    for(int i = 0; i < 3; i++)
+    {
+        for(int k = 0; k < 3; k++)
+        {
+            TTT[i][k]= " ";
+        }
+    }
     srand(time(0));
     int playerRow;
     int playerCol;
@@ -301,13 +269,54 @@ void playTickTackToe()
     }
 }
 
+//Gameplay loop 
+
+bool gameplayLoop()
+{
+    srand(time(0));
+    turn++;
+    std::cout << "You have " << formatMoney() << ", what do you want to do?" << std::endl;
+    std::cout << "(1) try and get more, (0) cash out: ";
+    int choice = 0;
+    std::cin >> choice;
+    std::cout << std::endl;
+    if(choice == 0)
+    {
+        return true;
+    }
+    else if(choice == 1)
+    {
+        if(rand() % 7 == 1 && turn >= 2)
+        {
+            std::cout<< "Whoops! You're playing tick tack toe now." << std::endl;
+            printTickTackToe();
+            playTickTackToe();
+        }
+        //produces number from 1-100
+        int chanceToBeat = rand() % 101;
+        if(chance <= chanceToBeat)
+        {
+            fuckYourLifeBingBong();
+        }
+        else
+        {
+            moneyGained += (rand() % (1000 * turn));
+            money += moneyGained / 100.0;
+            chance -= rand() % 5;
+            if(chance < 0)
+            {
+                chance = 0;
+            }
+        }
+        //you fucked it if you got here
+        return false;
+    }
+    return true;
+}
 
 //MAIN
 
 int main() {
-    printTickTackToe();
-    playTickTackToe();
-    /*
     while(true)
     {
         if(gameplayLoop())
@@ -327,6 +336,4 @@ int main() {
         }
     }
     return 1;
-    //fuckYourLifeBingBong();
-    */
 }
