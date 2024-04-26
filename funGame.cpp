@@ -422,7 +422,7 @@ void playRussianRoulette()
 
 #pragma region hangman
 std::string chooseRandomWord() {
-    std::vector<std::string> words = {"apple", "banana", "orange", "grape", "strawberry", "watermelon"};
+    std::vector<std::string> words = {"apple", "banana", "orange", "grape", "strawberry", "watermelon", "code", "rectangle", "hangman"};
     srand(static_cast<unsigned int>(time(0)));
     int randomIndex = rand() % words.size();
     return words[randomIndex];
