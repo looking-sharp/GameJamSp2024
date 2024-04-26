@@ -11,7 +11,7 @@ void clrscr()
     std::cout << "\033c";
 }
 
-#pragma region MainGambleing
+#pragma region main gambleing
 //Code to "crash" computer
 void fuckYourLifeBingBong()
 {
@@ -144,7 +144,7 @@ std::string formatMoney()
 }
 #pragma endregion
 
-#pragma region TickTackToe
+#pragma region tick tack toe
 // TICK TACK TOE
 
 //Tick tack toe variables
@@ -320,7 +320,7 @@ void playTickTackToe()
 }
 #pragma endregion
 
-#pragma region russianRoulette
+#pragma region russian roulette
 
 //print russian roulette board
 void printRussianRoulette()
@@ -418,6 +418,7 @@ void playRussianRoulette()
 
 #pragma endregion
 
+#pragma region setup and gameplay
 //set up and introduction code
 int randomEventChance = 5;
 void setup()
@@ -522,7 +523,7 @@ bool gameplayLoop()
     }
     return true;
 }
-
+#pragma endregion
 //MAIN
 
 int main() {
