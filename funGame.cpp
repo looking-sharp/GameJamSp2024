@@ -127,7 +127,7 @@ void fuckYourLifeBingBong()
         "error: 'class std::vector<int>' has no member named 'to_hash_map'",
         "error: 'class std::vector<int>' has no member named 'to_hash_set'",
         "error: 'class std::vector<int>' has no member named 'to_linked_hash_map'",
-        "error: 'class std::vector<int>' has no member named 'to_linked_hash_set'",
+        "error: 'Your mom is undefined",
         "error: 'kill yourself'",
         "error: 'I fucked your mother'",
         "error: 'I will eat you'",
@@ -542,6 +542,165 @@ void playHangman() {
 
 #pragma endregion
 
+#pragma region connect four
+std::vector<std::vector<std::string>> C4 = {
+    {" ", " ", " ", " ", " ", " ", " "},
+    {" ", " ", " ", " ", " ", " ", " "},
+    {" ", " ", " ", " ", " ", " ", " "},
+    {" ", " ", " ", " ", " ", " ", " "},
+    {" ", " ", " ", " ", " ", " ", " "},
+    {" ", " ", " ", " ", " ", " ", " "}
+};
+
+bool checkWinConnectFour(const std::vector<std::vector<std::string>>& board, std::string player) {
+    // Check horizontal
+    int ROWS = 6;
+    int COLS = 7;
+    for (int row = 0; row < ROWS; ++row) {
+        for (int col = 0; col <= COLS - 4; ++col) {
+            bool found = true;
+            for (int i = 0; i < 4; ++i) {
+                if (board[row][col + i] != player) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found) return true;
+        }
+    }
+
+    // Check vertical
+    for (int col = 0; col < COLS; ++col) {
+        for (int row = 0; row <= ROWS - 4; ++row) {
+            bool found = true;
+            for (int i = 0; i < 4; ++i) {
+                if (board[row + i][col] != player) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found) return true;
+        }
+    }
+
+    // Check diagonal (from top-left to bottom-right)
+    for (int row = 0; row <= ROWS - 4; ++row) {
+        for (int col = 0; col <= COLS - 4; ++col) {
+            bool found = true;
+            for (int i = 0; i < 4; ++i) {
+                if (board[row + i][col + i] != player) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found) return true;
+        }
+    }
+
+    // Check diagonal (from top-right to bottom-left)
+    for (int row = 0; row <= ROWS - 4; ++row) {
+        for (int col = COLS - 1; col >= 3; --col) {
+            bool found = true;
+            for (int i = 0; i < 4; ++i) {
+                if (board[row + i][col - i] != player) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found) return true;
+        }
+    }
+
+    return false;
+}
+
+void printConnectFour()
+{
+    std::cout << "   1   2   3   4   5   6   7 " << std::endl;
+    std::cout << " -----------------------------" << std::endl;
+    for(int i = 0; i < 6; i++)
+    {
+        std::cout << " | ";
+        for(int k = 0; k < 7; k++)
+        {
+            std::cout << C4[i][k] << " | ";
+        }
+        std::cout << std::endl << " -----------------------------" << std::endl;
+    }
+}
+
+std::string getPlayerPiece()
+{
+  return ANSI_BRIGHT_YELLOW + "O" + ANSI_RESET;
+}
+
+std::string getCompPiece()
+{
+    return ANSI_BRIGHT_RED + "O" + ANSI_RESET;
+}
+
+void playConnectFour()
+{
+    for(int i = 0; i < 6; i++)
+    {
+        for(int k = 0; k < 7; k++)
+        {
+            C4[i][k] = " ";
+        }
+    }
+    while (true)
+    {
+        bool isLegalMove = false;
+        int playerMove;
+        printConnectFour();
+        while (!isLegalMove)
+        {
+            std::cout << "Enter a column (1-7): ";
+            std::cin >> playerMove;
+            if(C4[0][playerMove-1] == " ")
+            {
+                isLegalMove = true;
+            }
+            else
+            {
+                std::cout << "Not a legal move, try again." << std::endl;
+            }
+        }
+        
+        //do move
+        for(int i = 0; i < 6; i++)
+        {
+            std::cout << (C4[i][playerMove-1] == " ") << std::endl;
+            if(!(C4[i][playerMove-1] == " ") || i == 6)
+            {
+                C4[i-1][playerMove-1] = getPlayerPiece();
+            }
+        }
+
+        //check for winner
+        bool playerWins = checkWinConnectFour(C4, getPlayerPiece());
+        bool compWins = checkWinConnectFour(C4, getCompPiece());
+        if(playerWins)
+        {
+            std::cout << "Congrats! You win connect four!" << std::endl;
+            break;
+        }
+        else if (compWins)
+        {
+            std::cout << "Computer wins. try agan";
+            for(int i = 0; i < 6; i++)
+            {
+                for(int k = 0; k < 7; k++)
+                {
+                    C4[i][k] = " ";
+                }
+            }
+        }
+    }
+}
+
+#pragma endregion
+
 #pragma region setup and gameplay
 //take money and format it s $-.--
 std::string formatMoney()
@@ -668,7 +827,7 @@ bool gameplayLoop()
 #pragma endregion
 //MAIN
 
-
+/*
 int main() {
     setup();
     while(true)
@@ -692,4 +851,10 @@ int main() {
         }
     }
     return 1;
+}
+*/
+
+int main()
+{
+    playConnectFour();
 }
