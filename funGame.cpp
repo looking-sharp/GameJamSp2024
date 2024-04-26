@@ -386,6 +386,7 @@ void playRussianRoulette()
         //do spin
         if(input == 1)
         {
+            usleep(1000000);
             printRussianRoulette();
             //reset bullet amount
             numTillBullet = rand() % 6;
@@ -722,7 +723,6 @@ void playConnectFour()
                 }
             }
         }
-        clrscr();
     }
 }
 
@@ -843,7 +843,7 @@ bool gameplayLoop()
             else
             {
                 clrscr();
-                std::cout << "Whoops! You're playing connect four now. (You are yellow)" << std::endl;
+                std::cout << "Whoops! You're playing connect four now." << std::endl;
                 playConnectFour();
             }
         }
