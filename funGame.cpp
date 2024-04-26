@@ -748,12 +748,14 @@ void setup()
     std::cout << ANSI_BRIGHT_YELLOW <<"  3. This should be played on liux terminal / ENGR servers" << ANSI_RESET << std::endl;
     std::cout << ANSI_BRIGHT_YELLOW <<"  4. No crying" << ANSI_RESET << std::endl;
     std::cout << "Just follow the prompts and you'll be fine!" << std::endl;
-    std::cout << "Type anything to continue or type 'settings' to access settings" << std::endl;
+    std::cout << "Type 's' to access settings" << std::endl;
+    std::cout << "Type 'd' to access description" << std::endl;
+    std::cout << "Or type anything to continue" << std::endl;
     std::string input;
     std::cin >> input;
     int input2 = 0; 
     //allow user to change settings
-    if(input == "settings")
+    if(input == "s")
     {
         //keep prompting user until they type 0
         while(true)
@@ -774,6 +776,26 @@ void setup()
                 std::cin >> randomEventChance;
             }
         }
+    }
+    //show description
+    else if (input == "d")
+    {
+        clrscr();
+        std::cout << ANSI_BRIGHT_RED << "funGame.cpp created by looking_sharp" << ANSI_RESET << std::endl;
+        std::cout << ANSI_BRIGHT_RED <<"Created for the VDGC Spring 2024 game jam" << ANSI_RESET << std::endl;
+        std::cout << ANSI_BRIGHT_YELLOW << "Theme:" << ANSI_RESET << "Chance" << std::endl;
+        std::cout << ANSI_BRIGHT_YELLOW << "What the game is:" << ANSI_RESET << "This game is a simple gambling simulator with a few twists." <<std::endl;
+        std::cout << "Each time you gamble, the amount of money you get is randomized but increases over time." << std::endl;
+        std::cout << "However, each time you gamble there's a chance you get an event and have to play a" << std::endl;
+        std::cout << "minigame. These minigames include tick tack toe, hangman, and connect four. There's" <<std::endl;
+        std::cout << "also a chance that if you get too greedy, you'll have to play russian roulette which" <<std::endl;
+        std::cout << "is how you lose the game." <<std::endl;
+        std::cout << ANSI_BRIGHT_YELLOW << "How the theme is used: " << ANSI_RESET << "All the mini games and gambeling system are run by random" << std::endl;
+        std::cout << "number generators. In total, there are 18 different random number generators." << std::endl;
+        std::string in;
+        std::cout << "Type anything to continue: ";
+        std::cin >> in;
+        clrscr();
     }
     //user goes straight to game
     else
