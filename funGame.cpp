@@ -666,28 +666,55 @@ void playConnectFour()
                 std::cout << "Not a legal move, try again." << std::endl;
             }
         }
-        
         //do move
-        for(int i = 0; i < 6; i++)
+        for(int i = 0; i <= 6; i++)
         {
-            std::cout << (C4[i][playerMove-1] == " ") << std::endl;
-            if(!(C4[i][playerMove-1] == " ") || i == 6)
+            if(i == 6 || !(C4[i][playerMove-1] == " "))
             {
                 C4[i-1][playerMove-1] = getPlayerPiece();
+                break;
             }
         }
-
         //check for winner
         bool playerWins = checkWinConnectFour(C4, getPlayerPiece());
+        
+        if(!playerWins)
+        {
+            // do comp move
+            srand(time(0));
+            isLegalMove = false;
+            int compMove;
+            while(!isLegalMove)
+            {
+                compMove = rand() % 7;
+                if(C4[0][compMove-1] == " ")
+                {
+                    isLegalMove= true;
+                }
+            }
+            //do comp move
+            for(int i = 0; i <= 6; i++)
+            {
+                if(i == 6 || !(C4[i][compMove-1] == " "))
+                {
+                    C4[i-1][compMove-1] = getCompPiece();
+                    break;
+                }
+            }
+        }
+        //check for winner
         bool compWins = checkWinConnectFour(C4, getCompPiece());
         if(playerWins)
         {
-            std::cout << "Congrats! You win connect four!" << std::endl;
+            clrscr();
+            printConnectFour();
+            std::cout << "Congrats! You win connect four!" << std::endl << std::endl;
             break;
         }
         else if (compWins)
         {
-            std::cout << "Computer wins. try agan";
+            clrscr();
+            std::cout << "Computer wins. try agan" << std::endl << std::endl;
             for(int i = 0; i < 6; i++)
             {
                 for(int k = 0; k < 7; k++)
@@ -778,18 +805,24 @@ bool gameplayLoop()
         //random chance you play tick tack toe
         if(rand() % randomEventChance == 1 && turn >= 2)
         {
-            int randomchoice = rand();
-            if(randomchoice % 2== 0)
+            int randomchoice = rand() % 3;
+            if(randomchoice == 0)
             {
                 clrscr();
                 std::cout << "Whoops! You're playing tick tack toe now." << std::endl;
                 playTickTackToe();
             }
+            else if (randomchoice == 1)
+            {
+                clrscr();
+                std::cout << "Whoops! You're playing hangman now." << std::endl;
+                playHangman();
+            }
             else
             {
                 clrscr();
-                std::cout << "Whoops! You're playing hangman toe now." << std::endl;
-                playHangman();
+                std::cout << "Whoops! You're playing connect four now." << std::endl;
+                playConnectFour();
             }
         }
         else
@@ -827,7 +860,7 @@ bool gameplayLoop()
 #pragma endregion
 //MAIN
 
-/*
+
 int main() {
     setup();
     while(true)
@@ -851,10 +884,4 @@ int main() {
         }
     }
     return 1;
-}
-*/
-
-int main()
-{
-    playConnectFour();
 }
