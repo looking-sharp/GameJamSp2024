@@ -4,6 +4,8 @@
 #include <ctime>
 #include <unistd.h>
 #include <iomanip>
+#include <vector>
+#include <string>
 
 //clear screen
 void clrscr()
@@ -418,6 +420,92 @@ void playRussianRoulette()
 
 #pragma endregion
 
+#pragma region hangman
+std::string chooseRandomWord() {
+    std::vector<std::string> words = {"apple", "banana", "orange", "grape", "strawberry", "watermelon"};
+    srand(static_cast<unsigned int>(time(0)));
+    int randomIndex = rand() % words.size();
+    return words[randomIndex];
+}
+
+// Function to check if a letter is in the word
+bool isLetterInWord(char letter, const std::string& word) {
+    for (char c : word) {
+        if (c == letter) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Function to display the current state of the word
+void displayWord(const std::string& word, const std::vector<bool>& revealedLetters) {
+    for (size_t i = 0; i < word.size(); ++i) {
+        if (revealedLetters[i]) {
+            std::cout << word[i] << " ";
+        } else {
+            std::cout << "_ ";
+        }
+    }
+    std::cout << std::endl;
+}
+
+// Function to play the Hangman game
+void playHangman() {
+    std::string word = chooseRandomWord();
+    std::vector<bool> revealedLetters(word.size(), false);
+    int incorrectAttempts = 0;
+    int maxAttempts = 5; // Set the maximum number of incorrect attempts
+    if(word.size() > 7)
+    {
+        maxAttempts = word.size() - 2;
+    }
+
+    std::cout << "Try to guess the word.\n";
+
+    while (incorrectAttempts < maxAttempts) {
+        std::cout << "\nWord: ";
+        displayWord(word, revealedLetters);
+
+        std::cout << "Guess a letter: ";
+        char guess;
+        std::cin >> guess;
+
+        if (isLetterInWord(guess, word)) {
+            std::cout << "Correct guess!\n";
+            // Update revealedLetters to reveal the guessed letter
+            for (size_t i = 0; i < word.size(); ++i) {
+                if (word[i] == guess) {
+                    revealedLetters[i] = true;
+                }
+            }
+        } else {
+            std::cout << "Incorrect guess.\n";
+            ++incorrectAttempts;
+            std::cout << "Attempts remaining: " << maxAttempts - incorrectAttempts << std::endl;
+        }
+
+        // Check if all letters have been revealed
+        bool allLettersRevealed = true;
+        for (bool revealed : revealedLetters) {
+            if (!revealed) {
+                allLettersRevealed = false;
+                break;
+            }
+        }
+
+        if (allLettersRevealed) {
+            std::cout << "\nCongratulations! You guessed the word: " << word << std::endl;
+            return;
+        }
+    }
+    clrscr();
+    std::cout << "\nSorry, you ran out of attempts. The word was: " << word << std::endl;
+    playHangman();
+}
+
+#pragma endregion
+
 #pragma region setup and gameplay
 //set up and introduction code
 int randomEventChance = 5;
@@ -487,9 +575,19 @@ bool gameplayLoop()
         //random chance you play tick tack toe
         if(rand() % randomEventChance == 1 && turn >= 2)
         {
-            clrscr();
-            std::cout << "Whoops! You're playing tick tack toe now." << std::endl;
-            playTickTackToe();
+            int randomchoice = rand();
+            if(randomchoice % 2== 0)
+            {
+                clrscr();
+                std::cout << "Whoops! You're playing tick tack toe now." << std::endl;
+                playTickTackToe();
+            }
+            else
+            {
+                clrscr();
+                std::cout << "Whoops! You're playing hangman toe now." << std::endl;
+                playHangman();
+            }
         }
         else
         {
@@ -521,10 +619,11 @@ bool gameplayLoop()
             return false;
         }
     }
-    return true;
+    return false;
 }
 #pragma endregion
 //MAIN
+
 
 int main() {
     setup();
