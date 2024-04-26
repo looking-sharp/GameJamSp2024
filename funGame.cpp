@@ -22,13 +22,13 @@ const std::string ANSI_BRIGHT_BLUE = "\033[94m";
 const std::string ANSI_BRIGHT_MAGENTA = "\033[95m";
 const std::string ANSI_BRIGHT_CYAN = "\033[96m";
 
+#pragma region main gambleing
 //clear screen
 void clrscr()
 {
     std::cout << "\033c";
 }
 
-#pragma region main gambleing
 //Code to "crash" computer
 void fuckYourLifeBingBong()
 {
