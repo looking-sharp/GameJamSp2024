@@ -7,6 +7,21 @@
 #include <vector>
 #include <string>
 
+//colored text variabes
+const std::string ANSI_RESET = "\033[0m";
+const std::string ANSI_RED = "\033[31m";
+const std::string ANSI_GREEN = "\033[32m";
+const std::string ANSI_YELLOW = "\033[33m";
+const std::string ANSI_BLUE = "\033[34m";
+const std::string ANSI_MAGENTA = "\033[35m";
+const std::string ANSI_CYAN = "\033[36m";
+const std::string ANSI_BRIGHT_RED = "\033[91m";
+const std::string ANSI_BRIGHT_GREEN = "\033[92m";
+const std::string ANSI_BRIGHT_YELLOW = "\033[93m";
+const std::string ANSI_BRIGHT_BLUE = "\033[94m";
+const std::string ANSI_BRIGHT_MAGENTA = "\033[95m";
+const std::string ANSI_BRIGHT_CYAN = "\033[96m";
+
 //clear screen
 void clrscr()
 {
@@ -137,13 +152,6 @@ int chance = 100;
 int moneyGained = 0;
 int turn = 0;
 
-//take money and format it s $-.--
-std::string formatMoney()
-{
-    std::stringstream ss;
-    ss << std::fixed << std::setprecision(2) << "$" << money;
-    return ss.str();
-}
 #pragma endregion
 
 #pragma region tick tack toe
@@ -163,7 +171,34 @@ void printTickTackToe()
     std::cout << "  1   2   3" << std::endl;
     for(int i = 0; i < 3; i++)
     {
-        std::cout << i+1 << " " << TTT[i][0] << " | " << TTT[i][1] << " | " << TTT[i][2] << std::endl;
+        std::string st1 = TTT[i][0];
+        if(st1 == "X")
+        {
+            st1 = ANSI_BRIGHT_GREEN + st1 + ANSI_RESET;
+        }
+        else if(st1 == "O")
+        {
+            st1 = ANSI_BRIGHT_RED + st1 + ANSI_RESET;
+        }
+        std::string st2 = TTT[i][1];
+        if(st2 == "X")
+        {
+            st2 = ANSI_BRIGHT_GREEN + st2 + ANSI_RESET;
+        }
+        else if(st2 == "O")
+        {
+            st2 = ANSI_BRIGHT_RED + st2 + ANSI_RESET;
+        }
+        std::string st3 = TTT[i][2];
+        if(st3 == "X")
+        {
+            st3 = ANSI_BRIGHT_GREEN + st3 + ANSI_RESET;
+        }
+        else if(st3 == "O")
+        {
+            st3 = ANSI_BRIGHT_RED + st3 + ANSI_RESET;
+        }
+        std::cout << i+1 << " " << st1 << " | " << st2 << " | " << st3 << std::endl;
         std::cout << " -----------" << std::endl;
     }
 }
@@ -328,25 +363,25 @@ void playTickTackToe()
 void printRussianRoulette()
 {
     std::cout << std::endl;
-    std::cout << "               {?}" << std::endl;
-    std::cout << "          {?}       {?}" << std::endl;
+    std::cout << "               {" << ANSI_BRIGHT_RED << "?" << ANSI_RESET << "}" << std::endl;
+    std::cout << "          {"<< ANSI_BRIGHT_RED << "?" << ANSI_RESET<< "}       {" << ANSI_BRIGHT_RED << "?" << ANSI_RESET << "}" << std::endl;
     std::cout << std::endl;
-    std::cout << "          {?}       {?}" << std::endl;
-    std::cout << "               {?}" << std::endl;
+    std::cout << "          {"<< ANSI_BRIGHT_RED << "?" << ANSI_RESET<< "}       {" << ANSI_BRIGHT_RED << "?" << ANSI_RESET << "}" << std::endl;
+    std::cout << "               {" << ANSI_BRIGHT_RED << "?" << ANSI_RESET << "}" << std::endl;
     std::cout << std::endl;
 }
 
 //Play russian roulette game
 void playRussianRoulette()
 {
+    int numTillBullet = rand() % 6;
     while (true)
     {
         printRussianRoulette();
         //do Player input, reset random
         srand(time(0));
-        int numTillBullet = rand() % 6;
         int input;
-        std::cout << "Choose to spin (1) or shoot (0): ";
+        std::cout << "Choose to spin (1) or" << ANSI_BRIGHT_RED << " shoot " << ANSI_RESET << "(0): ";
         std::cin >> input;
         //do spin
         if(input == 1)
@@ -371,7 +406,8 @@ void playRussianRoulette()
             //you survived the turn
             else
             {
-                std::cout << "You survive, computer's turn." << std::endl << std::endl;
+                clrscr();
+                std::cout << ANSI_BRIGHT_GREEN << "You survive, computer's turn." << ANSI_RESET << std::endl << std::endl;
                 numTillBullet--;
             }
         }
@@ -442,7 +478,7 @@ bool isLetterInWord(char letter, const std::string& word) {
 void displayWord(const std::string& word, const std::vector<bool>& revealedLetters) {
     for (size_t i = 0; i < word.size(); ++i) {
         if (revealedLetters[i]) {
-            std::cout << word[i] << " ";
+            std::cout << ANSI_BRIGHT_GREEN << word[i] << ANSI_RESET << " ";
         } else {
             std::cout << "_ ";
         }
@@ -495,28 +531,36 @@ void playHangman() {
         }
 
         if (allLettersRevealed) {
-            std::cout << "\nCongratulations! You guessed the word: " << word << std::endl;
+            std::cout << "\nCongratulations! You guessed the word: " << ANSI_BRIGHT_GREEN << word << ANSI_RESET <<std::endl;
             return;
         }
     }
     clrscr();
-    std::cout << "\nSorry, you ran out of attempts. The word was: " << word << std::endl;
+    std::cout << "\nSorry, you ran out of attempts. The word was: " << ANSI_BRIGHT_GREEN << word << ANSI_RESET << std::endl;
     playHangman();
 }
 
 #pragma endregion
 
 #pragma region setup and gameplay
+//take money and format it s $-.--
+std::string formatMoney()
+{
+    std::stringstream ss;
+    ss << ANSI_BRIGHT_GREEN << std::fixed << std::setprecision(2) << "$" << money << ANSI_RESET;
+    return ss.str();
+}
+
 //set up and introduction code
 int randomEventChance = 5;
 void setup()
 {
     clrscr();
-    std::cout << "Welcome to funGame.cpp! Here's the rules:" << std::endl;
-    std::cout << "  1. Make as much money as possible" << std::endl;
-    std::cout << "  2. I didn't add error handeling to don't type in wrong stuff" << std::endl;
-    std::cout << "  3. This should be played on liux terminal / ENGR servers" << std::endl;
-    std::cout << "  4. No crying" << std::endl;
+    std::cout << ANSI_BRIGHT_RED << "Welcome to funGame.cpp! Here's the rules:" << ANSI_RESET << std::endl;
+    std::cout << ANSI_BRIGHT_YELLOW <<"  1. Make as much money as possible" << ANSI_RESET << std::endl;
+    std::cout << ANSI_BRIGHT_YELLOW <<"  2. I didn't add error handeling to don't type in wrong stuff" << ANSI_RESET << std::endl;
+    std::cout << ANSI_BRIGHT_YELLOW <<"  3. This should be played on liux terminal / ENGR servers" << ANSI_RESET << std::endl;
+    std::cout << ANSI_BRIGHT_YELLOW <<"  4. No crying" << ANSI_RESET << std::endl;
     std::cout << "Just follow the prompts and you'll be fine!" << std::endl;
     std::cout << "Type anything to continue or type 'settings' to access settings" << std::endl;
     std::string input;
@@ -528,8 +572,8 @@ void setup()
         //keep prompting user until they type 0
         while(true)
         {
-            std::cout << std::endl << "Type in the number for the setting you wish to change (or type 0 to leave):" << std::endl;
-            std::cout << "  1. Random Event Chance: " << randomEventChance << " (Lower number = greater chance)" << std::endl;
+            std::cout << std::endl << ANSI_BRIGHT_RED << "Type in the number for the setting you wish to change (or type 0 to leave):" << ANSI_RESET << std::endl;
+            std::cout << ANSI_BRIGHT_YELLOW << "  1. Random Event Chance: " << randomEventChance << " (Lower number = greater chance)" << ANSI_RESET << std::endl;
             std::cin >> input2;
             //user is done editing settings, return to game
             if(input2 == 0)
@@ -597,7 +641,7 @@ bool gameplayLoop()
             if(chance <= chanceToBeat)
             {
                 clrscr();
-                std::cout << "Whoops! You got greedy. Now you're playing russian roulette." << std::endl;
+                std::cout << ANSI_BRIGHT_RED << "Whoops! You got greedy. Now you're playing russian roulette." << ANSI_RESET << std::endl;
                 playRussianRoulette();
                 std::cout << "Your chance of getting money has increased!" << std::endl;
                 chance += rand() % 50;
@@ -638,7 +682,7 @@ int main() {
             std::string outputs[6] = {
                 ". Rookie numbers, you can do better",
                 ". Wow, only that much? Jesus you suck",
-                ". Most gamblers quit before they make their big hit, keep going?",
+                ". Most gamblers quit before they make their big win, keep going?",
                 ". I bet I could beat that.",
                 ". Jesus you're bad at this",
                 ". Try again, no balls"
